@@ -1,4 +1,4 @@
-import {createStore} from "redux";
+import {createStore, combineReducers} from "redux";
 import loadingReducer from './redux/loading';
 import productsReducer from './redux/products';
 import basketReducer from './redux/basket';
@@ -11,7 +11,13 @@ const reducer = (state = {}, action) => {
     };
 };
 
-const store = createStore(reducer);
+const reducer2 = combineReducers({
+    isLoading: loadingReducer,
+    products: productsReducer,
+    basketItems: basketReducer,
+});
+
+const store = createStore(reducer2);
 store.subscribe(()=> {
     console.log(store.getState());
 });
