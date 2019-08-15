@@ -4,7 +4,7 @@ const initialState = {
     isLoading: false,
     products: [],
     basketItems: [
-        {id: 1, product: {name: 'test'}},
+        {id: 1, product: {name: 'test'}, count: 2},
     ],
 };
 
@@ -26,12 +26,25 @@ const reducer = (state, action) => {
                 products: action.products,
             };
         case 'ADD_TO_BASKET':
+            const items = [...state.basketItems];
+            const index = items.findIndex(item =>
+                item.product.id === action.product.id);
+
+            if (index > -1) {
+                items[index] = {
+                    ...items[index],
+                    count: items[index].count + 1,
+                };
+            } else {
+              items.push({
+                  id: Date.now(),
+                  product: action.product,
+                  count: 1,
+              });
+            }
             return {
                 ...state,
-                basketItems: [
-                    ...state.basketItems,
-                     {id: Date.now(), product: action.product}
-                ],
+                basketItems: items,
             };
         default:
             return state;

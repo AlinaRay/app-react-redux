@@ -6,7 +6,9 @@ const Basket = ({items}) => (
         <h2>Basket: </h2>
         <ul>
             {items.map(item => (
-                <li key={item.id}>{item.product.name}</li>
+                <li key={item.id}>
+                    {item.product.name} - {item.count}
+                </li>
             ))}
         </ul>
     </div>
