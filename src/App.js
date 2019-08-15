@@ -3,8 +3,8 @@ import {getProducts} from './api';
 import {connect} from 'react-redux';
 import ProductList from './ProductList';
 import Basket from './Basket';
-import {createSetProductsAction} from './redux/products';
-import {createStartLoadingAction, createFinishLoadingAction} from './redux/loading';
+import {setProducts} from './redux/products';
+import {startLoading, finishLoading} from './redux/loading';
 
 
 class App extends React.Component {
@@ -33,9 +33,9 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => {
     return {
-        startLoading: () => dispatch(createStartLoadingAction()),
-        finishLoading: () => dispatch(createFinishLoadingAction()),
-        setProducts: (products) => dispatch(createSetProductsAction(products)),
+        startLoading: () => dispatch(startLoading()),
+        finishLoading: () => dispatch(finishLoading()),
+        setProducts: (products) => dispatch(setProducts(products)),
     }
 };
 

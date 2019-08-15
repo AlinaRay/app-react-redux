@@ -1,15 +1,15 @@
-const ACTION_TYPE_ADD_TO_BASKET = 'ADD_TO_BASKET';
+const ADD_TO_BASKET = 'ADD_TO_BASKET';
 
-export const createAddToBasketAction = (product) => {
+export const addToBasket = (product) => {
     return {
-        type: ACTION_TYPE_ADD_TO_BASKET,
+        type: ADD_TO_BASKET,
         product: product,
     };
 };
 
 const basketReducer = (state=[], action) => {
     switch (action.type) {
-        case ACTION_TYPE_ADD_TO_BASKET:
+        case ADD_TO_BASKET:
             const items = [...state];
             const index = items.findIndex(item =>
                 item.product.id === action.product.id);

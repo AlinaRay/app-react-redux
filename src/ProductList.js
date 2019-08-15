@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
-import {createAddToBasketAction} from './redux/basket';
+import {addToBasket} from './redux/basket';
 
 class ProductList extends React.Component {
     state = {
@@ -51,7 +51,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         addToBasket: (product) => {
-            dispatch(createAddToBasketAction(product));
+            dispatch(addToBasket(product));
         },
     };
 };

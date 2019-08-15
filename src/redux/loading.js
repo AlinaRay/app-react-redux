@@ -1,23 +1,23 @@
-const ACTION_TYPE_START_LOADING = 'START_LOADING';
-const ACTION_TYPE_FINISH_LOADING = 'FINISH_LOADING';
+const START_LOADING = 'START_LOADING';
+const FINISH_LOADING = 'FINISH_LOADING';
 
-export const createStartLoadingAction = () => {
+export const startLoading = () => {
     return {
-        type: ACTION_TYPE_START_LOADING,
+        type: START_LOADING,
     };
 };
 
-export const createFinishLoadingAction = () => {
+export const finishLoading = () => {
     return {
-        type: ACTION_TYPE_FINISH_LOADING,
+        type: FINISH_LOADING,
     };
 };
 
 const loadingReducer = (state = false, action) => {
     switch (action.type) {
-        case ACTION_TYPE_START_LOADING:
+        case START_LOADING:
             return true;
-        case ACTION_TYPE_FINISH_LOADING:
+        case FINISH_LOADING:
             return false;
         default:
             return state;
