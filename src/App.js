@@ -1,7 +1,9 @@
 import React from 'react';
 import {getProducts} from './api';
 import {connect} from 'react-redux';
-import ProductList from './ProductList'
+import ProductList from './ProductList';
+import Basket from './Basket';
+
 class App extends React.Component {
     async componentDidMount(){
         const {startLoading, finishLoading, setProducts} = this.props;
@@ -33,17 +35,10 @@ const mapDispatch = (dispatch) => {
         finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
         setProducts: (products) => dispatch({type: 'SET_PRODUCTS', products: products}),
     }
-}
+};
+
 export default connect(mapState, mapDispatch)(App);
 
 const Header = ({ count }) => (
     <h1>Items count: {count}</h1>
-);
-
-const Basket = ({basketItems = []}) => (
-    <ul>
-        {basketItems.map(item => (
-            <li key={item.id}>{item.product.name}</li>
-        ))}
-    </ul>
 );

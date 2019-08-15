@@ -3,6 +3,9 @@ import {createStore} from "redux";
 const initialState = {
     isLoading: false,
     products: [],
+    basketItems: [
+        {id: 1, product: {name: 'test'}},
+    ],
 };
 
 const reducer = (state, action) => {
@@ -21,6 +24,14 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 products: action.products,
+            };
+        case 'ADD_TO_BASKET':
+            return {
+                ...state,
+                basketItems: [
+                    ...state.basketItems,
+                     {id: Date.now(), product: action.product}
+                ],
             };
         default:
             return state;

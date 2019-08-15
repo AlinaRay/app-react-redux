@@ -1,19 +1,35 @@
 import React from "react";
 import {connect} from 'react-redux';
 
-const ProductList = ({products = []}) => (
-    <ul>
-        {products.map(good => (
-            <li key={good.id}>
-                {good.name}
-            </li>
-        ))}
-    </ul>
+const ProductList = ({products, addToBasket}) => (
+    <div>
+        <h2>Products: </h2>
+        <ul>
+            {products.map(good => (
+                <li key={good.id}>
+                    {good.name}
+                    <button
+                        type="button"
+                        onClick={()=> addToBasket(good)}
+                    >
+                        Add
+                    </button>
+                </li>
+            ))}
+        </ul>
+    </div>
 );
+
 const mapState = (state) => {
     return {
         products: state.products,
     }
 };
 
-export default connect(mapState)(ProductList);
+const mapDispatch = (dispatch) => {
+    return {
+        addToBasket: (product) => dispatch({type: 'ADD_TO_BASKET', product:product }),
+    }
+};
+
+export default connect(mapState, mapDispatch)(ProductList);
