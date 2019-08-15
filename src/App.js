@@ -20,7 +20,6 @@ class App extends React.Component {
                 <Header />
                 <Basket />
                 {isLoading ? <h2> Loading...</h2> : <ProductList />}
-
             </div>
         )
     }
