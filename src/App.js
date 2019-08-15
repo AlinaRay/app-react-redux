@@ -38,8 +38,17 @@ const mapDispatch = (dispatch) => {
         setProducts: (products) => dispatch(setProducts(products)),
     }
 };
-
-export default connect(mapState, mapDispatch)(App);
+const mapDispatch2 = {
+    startLoading: startLoading,
+    finishLoading: finishLoading,
+    setProducts: setProducts,
+};
+const mapDispatch3 = {
+    startLoading,
+    finishLoading,
+    setProducts,
+};
+export default connect(mapState, mapDispatch3)(App);
 
 const Header = ({ count }) => (
     <h1>Items count: {count}</h1>
