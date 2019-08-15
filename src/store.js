@@ -3,30 +3,13 @@ import {createStore} from "redux";
 const initialState = {
     isLoading: false,
     products: [],
-    basketItems: [
-        {id: 1, product: {name: 'test'}, count: 2},
-    ],
+    basketItems: [],
 };
 
-const reducer = (state, action) => {
+const basketReducer = (state=[], action) => {
     switch (action.type) {
-        case 'START_LOADING':
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case 'FINISH_LOADING':
-            return {
-                ...state,
-                isLoading: false,
-            };
-        case 'SET_PRODUCTS':
-            return {
-                ...state,
-                products: action.products,
-            };
         case 'ADD_TO_BASKET':
-            const items = [...state.basketItems];
+            const items = [...state];
             const index = items.findIndex(item =>
                 item.product.id === action.product.id);
 
@@ -36,19 +19,44 @@ const reducer = (state, action) => {
                     count: items[index].count + 1,
                 };
             } else {
-              items.push({
-                  id: Date.now(),
-                  product: action.product,
-                  count: 1,
-              });
+                items.push({
+                    id: Date.now(),
+                    product: action.product,
+                    count: 1,
+                });
             }
-            return {
-                ...state,
-                basketItems: items,
-            };
+            return items;
         default:
             return state;
     }
+} ;
+
+const loadingReducer = (state = false, action) => {
+    switch (action.type) {
+        case 'START_LOADING':
+            return true;
+        case 'FINISH_LOADING':
+            return false;
+        default:
+            return state;
+    }
+};
+
+const productsReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_PRODUCTS':
+            return action.products;
+        default:
+            return state;
+    }
+};
+
+const reducer = (state = {}, action) => {
+    return {
+        isLoading: loadingReducer(state.isLoading, action),
+        products: productsReducer(state.products, action),
+        basketItems: basketReducer(state.basketItems, action)
+    };
 };
 
 const store = createStore(reducer, initialState);
