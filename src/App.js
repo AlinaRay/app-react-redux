@@ -1,46 +1,49 @@
 import React from 'react';
+import {getProducts} from './api';
 import {connect} from 'react-redux';
-import TodoList from  './TodoList';
+import ProductList from './ProductList'
+class App extends React.Component {
+    async componentDidMount(){
+        const {startLoading, finishLoading, setProducts} = this.props;
+        startLoading();
+        const products = await getProducts();
+        finishLoading();
+        setProducts(products);
+    }
+    render(){
+        const {isLoading} = this.props;
+        console.log('render');
+        return (
+            <div>
+                <Header />
+                <Basket />
+                {isLoading ? <h2> Loading...</h2> : <ProductList />}
 
-const App = ({count, increase, decrease}) => (
-    <div>
-        <h1>Count: {count}</h1>
-        <button onClick={increase}>+</button>
-        <button onClick={decrease}>-</button>
-        <TodoList test={'test'}/>
-    </div>
-);
-
-const increaseAction = {type: 'increase'};
-const decreaseAction = {type: 'decrease'};
-
+            </div>
+        )
+    }
+};
 const mapState = (state) => ({
-    // return objects which will be added to the props of the component
-    count: state.count
-});
-const mapDispatch = (dispatch) => ({
-    // binding callbacks to the component's props
-    increase: () => dispatch(increaseAction),
-    decrease: () => dispatch(decreaseAction)
+    isLoading: state.isLoading,
 });
 
+const mapDispatch = (dispatch) => {
+    return {
+        startLoading: () => dispatch({type: 'START_LOADING'}),
+        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
+        setProducts: (products) => dispatch({type: 'SET_PRODUCTS', products: products}),
+    }
+}
 export default connect(mapState, mapDispatch)(App);
 
-// function connect(mapStateToProps, mapDispatchToProps) {
-//     return (Component) =>  {
-//         const extraProps = {
-//             ...mapStateToProps(store.getState()),
-//             ...mapDispatchToProps(store.dispatch())
-//         };
-//         return () => {
-//             <Component {...extraProps} />
-//         };
-//     };
-// }
+const Header = ({ count }) => (
+    <h1>Items count: {count}</h1>
+);
 
-// store.subscribe(()=> {
-//     // getting state
-//     // it's like addEventListener
-//     // subscription event
-//     console.log(store.getState());
-// });
+const Basket = ({basketItems = []}) => (
+    <ul>
+        {basketItems.map(item => (
+            <li key={item.id}>{item.product.name}</li>
+        ))}
+    </ul>
+);

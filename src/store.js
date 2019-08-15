@@ -1,18 +1,26 @@
 import {createStore} from "redux";
 
-const initialState = {count: 0};
+const initialState = {
+    isLoading: false,
+    products: [],
+};
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'increase':
+        case 'START_LOADING':
             return {
                 ...state,
-                count: state.count + 1
+                isLoading: true,
             };
-        case 'decrease':
+        case 'FINISH_LOADING':
             return {
                 ...state,
-                count: state.count - 1
+                isLoading: false,
+            };
+        case 'SET_PRODUCTS':
+            return {
+                ...state,
+                products: action.products,
             };
         default:
             return state;
@@ -20,28 +28,7 @@ const reducer = (state, action) => {
 };
 
 const store = createStore(reducer, initialState);
-
+store.subscribe(()=> {
+    console.log(store.getState());
+});
 export default store;
-
-// function createStore(reducer, initialState = {}) {
-//     let callbacks = [];
-//     let state = {...initialState};
-//
-//     return {
-//         getState() {
-//             //read state
-//             return state;
-//         },
-//         subscribe(callback) {
-//             //sabscribing for changing state
-//             //saving funcs to the arr
-//             callbacks.push(callback);
-//         },
-//         dispatch(action) {
-//             //setState
-//             state = reducer(state , action);
-//             // start up of functions from arr
-//             callbacks.forEach(f=>f());
-//         },
-//     }
-// }
